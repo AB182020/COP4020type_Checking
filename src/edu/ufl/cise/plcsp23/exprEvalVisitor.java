@@ -133,6 +133,11 @@ public class exprEvalVisitor implements ASTVisitor,IToken
     }
 
     @Override
+    public Object visitReturnStatement(ReturnStatement returnStatement, Object arg) throws PLCException {
+        return null;
+    }
+
+    @Override
     public SourceLocation getSourceLocation() {
         return null;
     }

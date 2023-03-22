@@ -101,8 +101,18 @@ public class Parser implements IParser {
                         {
 
                             prog = new Program(firstToken,typeVal,prgIdent,argList,progBlock);
+                            firstToken = nextToken;
+                            nextToken = consume();
+                            if(nextToken.getKind() != IToken.Kind.EOF && nextToken.getKind() != IToken.Kind.DOT)
+                            {
+                                throw new SyntaxException("Syntax Error");
+                            }
                         }
 
+                    }
+                    else
+                    {
+                        throw new SyntaxException("Invalid Syntax missing LPAREN in definition");
                     }
 
                 }
@@ -124,6 +134,7 @@ public class Parser implements IParser {
       NameDef param = null;
       firstToken = nextToken;
         nextToken = consume();
+
        while(nextToken.getKind() != IToken.Kind.RPAREN)
        {
 
@@ -136,6 +147,10 @@ public class Parser implements IParser {
            }
            else
            {
+               if(firstToken.getKind() == IToken.Kind.LPAREN && nextToken.getKind() == IToken.Kind.COMMA)
+               {
+                   throw  new SyntaxException("Invalid Syntax");
+               }
                firstToken = nextToken;
                 nextToken = consume();
 
@@ -218,6 +233,10 @@ public class Parser implements IParser {
                 {
                     firstToken = nextToken;
                     nextToken = consume();
+                    if(nextToken.getKind() == IToken.Kind.DOT)
+                    {
+                        throw new SyntaxException("Error Invalid Syntax");
+                    }
                     continue;
                 }
                 else
