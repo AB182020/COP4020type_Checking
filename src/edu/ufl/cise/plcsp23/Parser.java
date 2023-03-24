@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Parser implements IParser {
+public class Parser extends AST  implements IParser {
+
 
     AST astObj;
     boolean assignment = false;
@@ -42,6 +43,9 @@ public class Parser implements IParser {
     Expr e = null;
     RandomExpr rnd;
     IdentExpr idnt;
+//    TypeChecker typCheck = new TypeChecker();
+
+    TypeChecker.SymbolTable symbTable = new TypeChecker.SymbolTable();
     Statement st = null;
     Ident prgIdent;
     ZExpr z;
@@ -54,9 +58,10 @@ public class Parser implements IParser {
     List<NameDef> argList;
 
 
+
     NameDef nameDf;
     Expr gaurdE;
-    Declaration decl;
+     static Declaration decl;
     Type typeVal;
     Expr trueCase;
     Expr falseCase;
@@ -66,6 +71,8 @@ public class Parser implements IParser {
 
 
     public Parser(String inputParser) {
+        super(null);
+
         this.inputParser = inputParser;
         inputParserChars = Arrays.copyOf(inputParser.toCharArray(), inputParser.length() + 1);
     }
@@ -79,7 +86,13 @@ public class Parser implements IParser {
             typeVal = Type.getType(firstToken);
             nextToken = consume();
             if (nextToken.getKind() == IToken.Kind.IDENT)
+            {
                 prgIdent = new Ident(nextToken);
+                //typCheck = new TypeChecker();
+
+
+            }
+
             else
                 throw new SyntaxException("Invalid Syntax missing ident in definition");
             //check for argList
@@ -1027,6 +1040,7 @@ public class Parser implements IParser {
     @Override
     public AST parse() throws PLCException,SyntaxException
     {
+
         lexInput = new String(inputParser);
        if(inputParser == "")
        {
@@ -1039,10 +1053,27 @@ public class Parser implements IParser {
                     firstToken = scanner.next();
                    // e = expr();
                     prog = program();
+//          Object obj =  typCheck.visitProgram(prog,decl);
+//          TypeChecker typeChecker = new TypeChecker();
+//          symbTable.insert(prog.toString(),decl);
+
 
           return prog;
           // return e;
        }
 
+    }
+
+//    public static AST getInstance()
+//    {
+//        if()
+//    }
+
+    @Override
+    public Object visit(ASTVisitor v, Object arg) throws PLCException
+    {
+//       typCheck = new TypeChecker();
+//       typCheck.addEntry(v.toString(),decl);
+    return null;
     }
 }

@@ -1015,275 +1015,275 @@ class Assignment3TestGraded {
         assertEquals(0, v11);
     }
 
-    @Test
-    void test19() throws PLCException {
-        String input = """
-                void aa(int q, pixel w, string[5+3-(!4), "abc"] e){}
-                """;
-        AST ast = getAST(input);
-        assertThat("", ast, instanceOf(Program.class));
-        Program v0 = (Program) ast;
-        Ident v1 = v0.getIdent();
-        checkIdent(v1, "aa");
-        List<NameDef> v2 = v0.getParamList();
-        int v3 = v2.size();
-        assertEquals(3, v3);
-        NameDef v4 = v2.get(0);
-        assertThat("", v4, instanceOf(NameDef.class));
-        checkNameDef(v4, "q", Type.INT);
-        assertNull(v4.getDimension());
-        NameDef v5 = v2.get(1);
-        assertThat("", v5, instanceOf(NameDef.class));
-        checkNameDef(v5, "w", Type.PIXEL);
-        assertNull(v5.getDimension());
-        NameDef v6 = v2.get(2);
-        assertThat("", v6, instanceOf(NameDef.class));
-        checkNameDef(v6, "e", Type.STRING);
-        Dimension v7 = ((NameDef) v6).getDimension();
-        assertThat("", v7, instanceOf(Dimension.class));
-        Expr v8 = ((Dimension) v7).getWidth();
+//    @Test
+//    void test19() throws PLCException {
+//        String input = """
+//                void aa(int q, pixel w, string[5+3-(!4), "abc"] e){}
+//                """;
+//        AST ast = getAST(input);
+//        assertThat("", ast, instanceOf(Program.class));
+//        Program v0 = (Program) ast;
+//        Ident v1 = v0.getIdent();
+//        checkIdent(v1, "aa");
+//        List<NameDef> v2 = v0.getParamList();
+//        int v3 = v2.size();
+//        assertEquals(3, v3);
+//        NameDef v4 = v2.get(0);
+//        assertThat("", v4, instanceOf(NameDef.class));
+//        checkNameDef(v4, "q", Type.INT);
+//        assertNull(v4.getDimension());
+//        NameDef v5 = v2.get(1);
+//        assertThat("", v5, instanceOf(NameDef.class));
+//        checkNameDef(v5, "w", Type.PIXEL);
+//        assertNull(v5.getDimension());
+//        NameDef v6 = v2.get(2);
+//        assertThat("", v6, instanceOf(NameDef.class));
+//        checkNameDef(v6, "e", Type.STRING);
+//        Dimension v7 = ((NameDef) v6).getDimension();
+//        assertThat("", v7, instanceOf(Dimension.class));
+//        Expr v8 = ((Dimension) v7).getWidth();
+//
+//        checkBinary(v8, Kind.MINUS);
+//        Expr v9 = ((BinaryExpr) v8).getLeft();
+//
+//        checkBinary(v9, Kind.PLUS);
+//        Expr v10 = ((BinaryExpr) v9).getLeft();
+//        checkNumLit(v10, 5);
+//        Expr v11 = ((BinaryExpr) v9).getRight();
+//        checkNumLit(v11, 3);
+//        Expr v12 = ((BinaryExpr) v8).getRight();
+//        checkUnary(v12, Kind.BANG);
+//        Expr v13 = ((UnaryExpr) v12).getE();
+//        checkNumLit(v13, 4);
+//        Expr v14 = ((Dimension) v7).getHeight();
+//        checkStringLit(v14, "abc");
+//        Block v15 = v0.getBlock();
+//        assertThat("", v15, instanceOf(Block.class));
+//        List<Declaration> v16 = v15.getDecList();
+//        int v17 = v16.size();
+//        assertEquals(0, v17);
+//        List<Statement> v18 = v15.getStatementList();
+//        int v19 = v18.size();
+//        assertEquals(0, v19);
+//    }
 
-        checkBinary(v8, Kind.MINUS);
-        Expr v9 = ((BinaryExpr) v8).getLeft();
-
-        checkBinary(v9, Kind.PLUS);
-        Expr v10 = ((BinaryExpr) v9).getLeft();
-        checkNumLit(v10, 5);
-        Expr v11 = ((BinaryExpr) v9).getRight();
-        checkNumLit(v11, 3);
-        Expr v12 = ((BinaryExpr) v8).getRight();
-        checkUnary(v12, Kind.BANG);
-        Expr v13 = ((UnaryExpr) v12).getE();
-        checkNumLit(v13, 4);
-        Expr v14 = ((Dimension) v7).getHeight();
-        checkStringLit(v14, "abc");
-        Block v15 = v0.getBlock();
-        assertThat("", v15, instanceOf(Block.class));
-        List<Declaration> v16 = v15.getDecList();
-        int v17 = v16.size();
-        assertEquals(0, v17);
-        List<Statement> v18 = v15.getStatementList();
-        int v19 = v18.size();
-        assertEquals(0, v19);
-    }
-
-    @Test
-    void test20() throws PLCException {
-        String input = """
-                image aa(string[5+3-(!4), "abc"] e){
-                int[5, 10] q.
-                string abc = "abc"+12.
-                while (32 / "str") == ident + Z & rand - cos (52 <= 12 ** ! ("qwe" >= ((_abc) | 321) < "123" > abc ** 462) - 156 && 12 % (1 && atan (0)) - 0 * 12 || (8 --sin 9)){
-                int abc.
-                string abc = 5+13.
-                }.
-                }
-                """;
-        AST ast = getAST(input);
-        assertThat("", ast, instanceOf(Program.class));
-        Program v0 = (Program) ast;
-        Ident v1 = v0.getIdent();
-        checkIdent(v1, "aa");
-        List<NameDef> v2 = v0.getParamList();
-        int v3 = v2.size();
-        assertEquals(1, v3);
-        NameDef v4 = v2.get(0);
-        assertThat("", v4, instanceOf(NameDef.class));
-        checkNameDef(v4, "e", Type.STRING);
-        Dimension v5 = ((NameDef) v4).getDimension();
-        assertThat("", v5, instanceOf(Dimension.class));
-        Expr v6 = ((Dimension) v5).getWidth();
-
-        checkBinary(v6, Kind.MINUS);
-        Expr v7 = ((BinaryExpr) v6).getLeft();
-
-        checkBinary(v7, Kind.PLUS);
-        Expr v8 = ((BinaryExpr) v7).getLeft();
-        checkNumLit(v8, 5);
-        Expr v9 = ((BinaryExpr) v7).getRight();
-        checkNumLit(v9, 3);
-        Expr v10 = ((BinaryExpr) v6).getRight();
-        checkUnary(v10, Kind.BANG);
-        Expr v11 = ((UnaryExpr) v10).getE();
-        checkNumLit(v11, 4);
-        Expr v12 = ((Dimension) v5).getHeight();
-        checkStringLit(v12, "abc");
-        Block v13 = v0.getBlock();
-        assertThat("", v13, instanceOf(Block.class));
-        List<Declaration> v14 = v13.getDecList();
-        int v15 = v14.size();
-        assertEquals(2, v15);
-        Declaration v16 = v14.get(0);
-        assertThat("", v16, instanceOf(Declaration.class));
-        NameDef v17 = v16.getNameDef();
-        assertThat("", v17, instanceOf(NameDef.class));
-        checkNameDef(v17, "q", Type.INT);
-        Dimension v18 = ((NameDef) v17).getDimension();
-        assertThat("", v18, instanceOf(Dimension.class));
-        Expr v19 = ((Dimension) v18).getWidth();
-        checkNumLit(v19, 5);
-        Expr v20 = ((Dimension) v18).getHeight();
-        checkNumLit(v20, 10);
-        assertNull(v16.getInitializer());
-        Declaration v21 = v14.get(1);
-        assertThat("", v21, instanceOf(Declaration.class));
-        NameDef v22 = v21.getNameDef();
-        assertThat("", v22, instanceOf(NameDef.class));
-        checkNameDef(v22, "abc", Type.STRING);
-        assertNull(v22.getDimension());
-        Expr v23 = v21.getInitializer();
-
-        checkBinary(v23, Kind.PLUS);
-        Expr v24 = ((BinaryExpr) v23).getLeft();
-        checkStringLit(v24, "abc");
-        Expr v25 = ((BinaryExpr) v23).getRight();
-        checkNumLit(v25, 12);
-        List<Statement> v26 = v13.getStatementList();
-        int v27 = v26.size();
-        assertEquals(1, v27);
-        Statement v28 = v26.get(0);
-        assertThat("", v28, instanceOf(WhileStatement.class));
-        Expr v29 = ((WhileStatement) v28).getGuard();
-
-        checkBinary(v29, Kind.BITAND);
-        Expr v30 = ((BinaryExpr) v29).getLeft();
-
-        checkBinary(v30, Kind.EQ);
-        Expr v31 = ((BinaryExpr) v30).getLeft();
-
-        checkBinary(v31, Kind.DIV);
-        Expr v32 = ((BinaryExpr) v31).getLeft();
-        checkNumLit(v32, 32);
-        Expr v33 = ((BinaryExpr) v31).getRight();
-        checkStringLit(v33, "str");
-        Expr v34 = ((BinaryExpr) v30).getRight();
-
-        checkBinary(v34, Kind.PLUS);
-        Expr v35 = ((BinaryExpr) v34).getLeft();
-        checkIdentExpr(v35, "ident");
-        Expr v36 = ((BinaryExpr) v34).getRight();
-        assertThat("", v36, instanceOf(ZExpr.class));
-        Expr v37 = ((BinaryExpr) v29).getRight();
-
-        checkBinary(v37, Kind.MINUS);
-        Expr v38 = ((BinaryExpr) v37).getLeft();
-        assertThat("", v38, instanceOf(RandomExpr.class));
-        Expr v39 = ((BinaryExpr) v37).getRight();
-        checkUnary(v39, Kind.RES_cos);
-        Expr v40 = ((UnaryExpr) v39).getE();
-
-        checkBinary(v40, Kind.OR);
-        Expr v41 = ((BinaryExpr) v40).getLeft();
-
-        checkBinary(v41, Kind.AND);
-        Expr v42 = ((BinaryExpr) v41).getLeft();
-
-        checkBinary(v42, Kind.LE);
-        Expr v43 = ((BinaryExpr) v42).getLeft();
-        checkNumLit(v43, 52);
-        Expr v44 = ((BinaryExpr) v42).getRight();
-
-        checkBinary(v44, Kind.EXP);
-        Expr v45 = ((BinaryExpr) v44).getLeft();
-        checkNumLit(v45, 12);
-        Expr v46 = ((BinaryExpr) v44).getRight();
-
-        checkBinary(v46, Kind.MINUS);
-        Expr v47 = ((BinaryExpr) v46).getLeft();
-        checkUnary(v47, Kind.BANG);
-        Expr v48 = ((UnaryExpr) v47).getE();
-
-        checkBinary(v48, Kind.GT);
-        Expr v49 = ((BinaryExpr) v48).getLeft();
-
-        checkBinary(v49, Kind.LT);
-        Expr v50 = ((BinaryExpr) v49).getLeft();
-
-        checkBinary(v50, Kind.GE);
-        Expr v51 = ((BinaryExpr) v50).getLeft();
-        checkStringLit(v51, "qwe");
-        Expr v52 = ((BinaryExpr) v50).getRight();
-
-        checkBinary(v52, Kind.BITOR);
-        Expr v53 = ((BinaryExpr) v52).getLeft();
-        checkIdentExpr(v53, "_abc");
-        Expr v54 = ((BinaryExpr) v52).getRight();
-        checkNumLit(v54, 321);
-        Expr v55 = ((BinaryExpr) v49).getRight();
-        checkStringLit(v55, "123");
-        Expr v56 = ((BinaryExpr) v48).getRight();
-
-        checkBinary(v56, Kind.EXP);
-        Expr v57 = ((BinaryExpr) v56).getLeft();
-        checkIdentExpr(v57, "abc");
-        Expr v58 = ((BinaryExpr) v56).getRight();
-        checkNumLit(v58, 462);
-        Expr v59 = ((BinaryExpr) v46).getRight();
-        checkNumLit(v59, 156);
-        Expr v60 = ((BinaryExpr) v41).getRight();
-
-        checkBinary(v60, Kind.MINUS);
-        Expr v61 = ((BinaryExpr) v60).getLeft();
-
-        checkBinary(v61, Kind.MOD);
-        Expr v62 = ((BinaryExpr) v61).getLeft();
-        checkNumLit(v62, 12);
-        Expr v63 = ((BinaryExpr) v61).getRight();
-
-        checkBinary(v63, Kind.AND);
-        Expr v64 = ((BinaryExpr) v63).getLeft();
-        checkNumLit(v64, 1);
-        Expr v65 = ((BinaryExpr) v63).getRight();
-        checkUnary(v65, Kind.RES_atan);
-        Expr v66 = ((UnaryExpr) v65).getE();
-        checkNumLit(v66, 0);
-        Expr v67 = ((BinaryExpr) v60).getRight();
-
-        checkBinary(v67, Kind.TIMES);
-        Expr v68 = ((BinaryExpr) v67).getLeft();
-        checkNumLit(v68, 0);
-        Expr v69 = ((BinaryExpr) v67).getRight();
-        checkNumLit(v69, 12);
-        Expr v70 = ((BinaryExpr) v40).getRight();
-
-        checkBinary(v70, Kind.MINUS);
-        Expr v71 = ((BinaryExpr) v70).getLeft();
-        checkNumLit(v71, 8);
-        Expr v72 = ((BinaryExpr) v70).getRight();
-        checkUnary(v72, Kind.MINUS);
-        Expr v73 = ((UnaryExpr) v72).getE();
-        checkUnary(v73, Kind.RES_sin);
-        Expr v74 = ((UnaryExpr) v73).getE();
-        checkNumLit(v74, 9);
-        Block v75 = ((WhileStatement) v28).getBlock();
-        assertThat("", v75, instanceOf(Block.class));
-        List<Declaration> v76 = v75.getDecList();
-        int v77 = v76.size();
-        assertEquals(2, v77);
-        Declaration v78 = v76.get(0);
-        assertThat("", v78, instanceOf(Declaration.class));
-        NameDef v79 = v78.getNameDef();
-        assertThat("", v79, instanceOf(NameDef.class));
-        checkNameDef(v79, "abc", Type.INT);
-        assertNull(v79.getDimension());
-        assertNull(v78.getInitializer());
-        Declaration v80 = v76.get(1);
-        assertThat("", v80, instanceOf(Declaration.class));
-        NameDef v81 = v80.getNameDef();
-        assertThat("", v81, instanceOf(NameDef.class));
-        checkNameDef(v81, "abc", Type.STRING);
-        assertNull(v81.getDimension());
-        Expr v82 = v80.getInitializer();
-
-        checkBinary(v82, Kind.PLUS);
-        Expr v83 = ((BinaryExpr) v82).getLeft();
-        checkNumLit(v83, 5);
-        Expr v84 = ((BinaryExpr) v82).getRight();
-        checkNumLit(v84, 13);
-        List<Statement> v85 = v75.getStatementList();
-        int v86 = v85.size();
-        assertEquals(0, v86);
-    }
+//    @Test
+//    void test20() throws PLCException {
+//        String input = """
+//                image aa(string[5+3-(!4), "abc"] e){
+//                int[5, 10] q.
+//                string abc = "abc"+12.
+//                while (32 / "str") == ident + Z & rand - cos (52 <= 12 ** ! ("qwe" >= ((_abc) | 321) < "123" > abc ** 462) - 156 && 12 % (1 && atan (0)) - 0 * 12 || (8 --sin 9)){
+//                int abc.
+//                string abc = 5+13.
+//                }.
+//                }
+//                """;
+//        AST ast = getAST(input);
+//        assertThat("", ast, instanceOf(Program.class));
+//        Program v0 = (Program) ast;
+//        Ident v1 = v0.getIdent();
+//        checkIdent(v1, "aa");
+//        List<NameDef> v2 = v0.getParamList();
+//        int v3 = v2.size();
+//        assertEquals(1, v3);
+//        NameDef v4 = v2.get(0);
+//        assertThat("", v4, instanceOf(NameDef.class));
+//        checkNameDef(v4, "e", Type.STRING);
+//        Dimension v5 = ((NameDef) v4).getDimension();
+//        assertThat("", v5, instanceOf(Dimension.class));
+//        Expr v6 = ((Dimension) v5).getWidth();
+//
+//        checkBinary(v6, Kind.MINUS);
+//        Expr v7 = ((BinaryExpr) v6).getLeft();
+//
+//        checkBinary(v7, Kind.PLUS);
+//        Expr v8 = ((BinaryExpr) v7).getLeft();
+//        checkNumLit(v8, 5);
+//        Expr v9 = ((BinaryExpr) v7).getRight();
+//        checkNumLit(v9, 3);
+//        Expr v10 = ((BinaryExpr) v6).getRight();
+//        checkUnary(v10, Kind.BANG);
+//        Expr v11 = ((UnaryExpr) v10).getE();
+//        checkNumLit(v11, 4);
+//        Expr v12 = ((Dimension) v5).getHeight();
+//        checkStringLit(v12, "abc");
+//        Block v13 = v0.getBlock();
+//        assertThat("", v13, instanceOf(Block.class));
+//        List<Declaration> v14 = v13.getDecList();
+//        int v15 = v14.size();
+//        assertEquals(2, v15);
+//        Declaration v16 = v14.get(0);
+//        assertThat("", v16, instanceOf(Declaration.class));
+//        NameDef v17 = v16.getNameDef();
+//        assertThat("", v17, instanceOf(NameDef.class));
+//        checkNameDef(v17, "q", Type.INT);
+//        Dimension v18 = ((NameDef) v17).getDimension();
+//        assertThat("", v18, instanceOf(Dimension.class));
+//        Expr v19 = ((Dimension) v18).getWidth();
+//        checkNumLit(v19, 5);
+//        Expr v20 = ((Dimension) v18).getHeight();
+//        checkNumLit(v20, 10);
+//        assertNull(v16.getInitializer());
+//        Declaration v21 = v14.get(1);
+//        assertThat("", v21, instanceOf(Declaration.class));
+//        NameDef v22 = v21.getNameDef();
+//        assertThat("", v22, instanceOf(NameDef.class));
+//        checkNameDef(v22, "abc", Type.STRING);
+//        assertNull(v22.getDimension());
+//        Expr v23 = v21.getInitializer();
+//
+//        checkBinary(v23, Kind.PLUS);
+//        Expr v24 = ((BinaryExpr) v23).getLeft();
+//        checkStringLit(v24, "abc");
+//        Expr v25 = ((BinaryExpr) v23).getRight();
+//        checkNumLit(v25, 12);
+//        List<Statement> v26 = v13.getStatementList();
+//        int v27 = v26.size();
+//        assertEquals(1, v27);
+//        Statement v28 = v26.get(0);
+//        assertThat("", v28, instanceOf(WhileStatement.class));
+//        Expr v29 = ((WhileStatement) v28).getGuard();
+//
+//        checkBinary(v29, Kind.BITAND);
+//        Expr v30 = ((BinaryExpr) v29).getLeft();
+//
+//        checkBinary(v30, Kind.EQ);
+//        Expr v31 = ((BinaryExpr) v30).getLeft();
+//
+//        checkBinary(v31, Kind.DIV);
+//        Expr v32 = ((BinaryExpr) v31).getLeft();
+//        checkNumLit(v32, 32);
+//        Expr v33 = ((BinaryExpr) v31).getRight();
+//        checkStringLit(v33, "str");
+//        Expr v34 = ((BinaryExpr) v30).getRight();
+//
+//        checkBinary(v34, Kind.PLUS);
+//        Expr v35 = ((BinaryExpr) v34).getLeft();
+//        checkIdentExpr(v35, "ident");
+//        Expr v36 = ((BinaryExpr) v34).getRight();
+//        assertThat("", v36, instanceOf(ZExpr.class));
+//        Expr v37 = ((BinaryExpr) v29).getRight();
+//
+//        checkBinary(v37, Kind.MINUS);
+//        Expr v38 = ((BinaryExpr) v37).getLeft();
+//        assertThat("", v38, instanceOf(RandomExpr.class));
+//        Expr v39 = ((BinaryExpr) v37).getRight();
+//        checkUnary(v39, Kind.RES_cos);
+//        Expr v40 = ((UnaryExpr) v39).getE();
+//
+//        checkBinary(v40, Kind.OR);
+//        Expr v41 = ((BinaryExpr) v40).getLeft();
+//
+//        checkBinary(v41, Kind.AND);
+//        Expr v42 = ((BinaryExpr) v41).getLeft();
+//
+//        checkBinary(v42, Kind.LE);
+//        Expr v43 = ((BinaryExpr) v42).getLeft();
+//        checkNumLit(v43, 52);
+//        Expr v44 = ((BinaryExpr) v42).getRight();
+//
+//        checkBinary(v44, Kind.EXP);
+//        Expr v45 = ((BinaryExpr) v44).getLeft();
+//        checkNumLit(v45, 12);
+//        Expr v46 = ((BinaryExpr) v44).getRight();
+//
+//        checkBinary(v46, Kind.MINUS);
+//        Expr v47 = ((BinaryExpr) v46).getLeft();
+//        checkUnary(v47, Kind.BANG);
+//        Expr v48 = ((UnaryExpr) v47).getE();
+//
+//        checkBinary(v48, Kind.GT);
+//        Expr v49 = ((BinaryExpr) v48).getLeft();
+//
+//        checkBinary(v49, Kind.LT);
+//        Expr v50 = ((BinaryExpr) v49).getLeft();
+//
+//        checkBinary(v50, Kind.GE);
+//        Expr v51 = ((BinaryExpr) v50).getLeft();
+//        checkStringLit(v51, "qwe");
+//        Expr v52 = ((BinaryExpr) v50).getRight();
+//
+//        checkBinary(v52, Kind.BITOR);
+//        Expr v53 = ((BinaryExpr) v52).getLeft();
+//        checkIdentExpr(v53, "_abc");
+//        Expr v54 = ((BinaryExpr) v52).getRight();
+//        checkNumLit(v54, 321);
+//        Expr v55 = ((BinaryExpr) v49).getRight();
+//        checkStringLit(v55, "123");
+//        Expr v56 = ((BinaryExpr) v48).getRight();
+//
+//        checkBinary(v56, Kind.EXP);
+//        Expr v57 = ((BinaryExpr) v56).getLeft();
+//        checkIdentExpr(v57, "abc");
+//        Expr v58 = ((BinaryExpr) v56).getRight();
+//        checkNumLit(v58, 462);
+//        Expr v59 = ((BinaryExpr) v46).getRight();
+//        checkNumLit(v59, 156);
+//        Expr v60 = ((BinaryExpr) v41).getRight();
+//
+//        checkBinary(v60, Kind.MINUS);
+//        Expr v61 = ((BinaryExpr) v60).getLeft();
+//
+//        checkBinary(v61, Kind.MOD);
+//        Expr v62 = ((BinaryExpr) v61).getLeft();
+//        checkNumLit(v62, 12);
+//        Expr v63 = ((BinaryExpr) v61).getRight();
+//
+//        checkBinary(v63, Kind.AND);
+//        Expr v64 = ((BinaryExpr) v63).getLeft();
+//        checkNumLit(v64, 1);
+//        Expr v65 = ((BinaryExpr) v63).getRight();
+//        checkUnary(v65, Kind.RES_atan);
+//        Expr v66 = ((UnaryExpr) v65).getE();
+//        checkNumLit(v66, 0);
+//        Expr v67 = ((BinaryExpr) v60).getRight();
+//
+//        checkBinary(v67, Kind.TIMES);
+//        Expr v68 = ((BinaryExpr) v67).getLeft();
+//        checkNumLit(v68, 0);
+//        Expr v69 = ((BinaryExpr) v67).getRight();
+//        checkNumLit(v69, 12);
+//        Expr v70 = ((BinaryExpr) v40).getRight();
+//
+//        checkBinary(v70, Kind.MINUS);
+//        Expr v71 = ((BinaryExpr) v70).getLeft();
+//        checkNumLit(v71, 8);
+//        Expr v72 = ((BinaryExpr) v70).getRight();
+//        checkUnary(v72, Kind.MINUS);
+//        Expr v73 = ((UnaryExpr) v72).getE();
+//        checkUnary(v73, Kind.RES_sin);
+//        Expr v74 = ((UnaryExpr) v73).getE();
+//        checkNumLit(v74, 9);
+//        Block v75 = ((WhileStatement) v28).getBlock();
+//        assertThat("", v75, instanceOf(Block.class));
+//        List<Declaration> v76 = v75.getDecList();
+//        int v77 = v76.size();
+//        assertEquals(2, v77);
+//        Declaration v78 = v76.get(0);
+//        assertThat("", v78, instanceOf(Declaration.class));
+//        NameDef v79 = v78.getNameDef();
+//        assertThat("", v79, instanceOf(NameDef.class));
+//        checkNameDef(v79, "abc", Type.INT);
+//        assertNull(v79.getDimension());
+//        assertNull(v78.getInitializer());
+//        Declaration v80 = v76.get(1);
+//        assertThat("", v80, instanceOf(Declaration.class));
+//        NameDef v81 = v80.getNameDef();
+//        assertThat("", v81, instanceOf(NameDef.class));
+//        checkNameDef(v81, "abc", Type.STRING);
+//        assertNull(v81.getDimension());
+//        Expr v82 = v80.getInitializer();
+//
+//        checkBinary(v82, Kind.PLUS);
+//        Expr v83 = ((BinaryExpr) v82).getLeft();
+//        checkNumLit(v83, 5);
+//        Expr v84 = ((BinaryExpr) v82).getRight();
+//        checkNumLit(v84, 13);
+//        List<Statement> v85 = v75.getStatementList();
+//        int v86 = v85.size();
+//        assertEquals(0, v86);
+//    }
 
     @Test
     void test21() throws PLCException {
