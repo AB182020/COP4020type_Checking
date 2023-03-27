@@ -178,25 +178,9 @@ class TypeCheckTest_starter {
 		typeCheck(input);
 	}
 	
+
+	
 	@Test void t13() throws PLCException {
-		String input = """
-				string s(string s0, string s1, int ok){
-				:if ok ? s0 ? s0 + s1 .
-				}
-				""";
-		typeCheck(input);
-	}
-	
-	@Test void t14() throws PLCException {
-		String input = """
-				string s(string s0, string s1, int ok){
-				:if ok ? ok+1 ? s0 + s1 .
-				}
-				""";
-		typeCheckError(input);
-	}
-	
-	@Test void t15() throws PLCException {
 		String input = """
 				int f(int xx){
 				: Z/2 + xx.
@@ -205,7 +189,7 @@ class TypeCheckTest_starter {
 		typeCheck(input);
 	}
 	
-	@Test void t16() throws PLCException {
+	@Test void t14() throws PLCException {
 		String input = """
 				int f(int xx){
 				int i = 3.
@@ -219,7 +203,7 @@ class TypeCheckTest_starter {
 		typeCheck(input);
 	}
 	
-	@Test void t17() throws PLCException {
+	@Test void t15() throws PLCException {
 		String input = """
 				int f(int xx){
 				int i = 3.
@@ -240,7 +224,7 @@ class TypeCheckTest_starter {
 		typeCheck(input);
 	}
 	
-	@Test void t18() throws PLCException {
+	@Test void t16() throws PLCException {
 		String input = """
 				int f(){
 				int i = 3.

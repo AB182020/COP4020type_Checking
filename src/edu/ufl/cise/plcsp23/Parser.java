@@ -253,14 +253,27 @@ public class Parser extends AST  implements IParser {
                     }
                     continue;
                 }
+                else if(nextToken.getKind() == IToken.Kind.COLON && InvalidStatementflag != true)
+                {
+                    if(firstToken.getKind() == IToken.Kind.LCURLY)
+                    {
+                        InvalidStatementflag = true;
+                        firstToken = nextToken;
+                        nextToken = consume();
+                        stmList.add(statement());
+                        firstToken = nextToken;
+                        nextToken = consume();
+                    }
+
+                }
                 else
                 {
                     if(firstToken.getKind() != IToken.Kind.RES_while)
                     {
                         if(InvalidStatementflag != true)
                         {
-                            decl = declar();
-                            declarationList.add(decl);
+                                decl = declar();
+                                declarationList.add(decl);
                         }
                         else
                         {
@@ -600,6 +613,7 @@ public class Parser extends AST  implements IParser {
                 numLit = new NumLitExpr(currentToken);
                 if(nextToken == null)
                 {
+                    firstToken = nextToken;
                     nextToken = consume();
                 }
                 IToken.Kind eofKind = null;
@@ -607,8 +621,12 @@ public class Parser extends AST  implements IParser {
                 {
                     eofKind = nextToken.getKind();
                 }
-                if(eofKind != IToken.Kind.EOF && eofKind != IToken.Kind.RSQUARE)
+                if(eofKind != IToken.Kind.EOF && eofKind != IToken.Kind.RSQUARE && eofKind != IToken.Kind.PLUS)
+                {
+                    firstToken = nextToken;
                     nextToken = consume();
+                }
+
                 if(nextToken.getKind() == IToken.Kind.EOF || parenFlag == true)
                     return numLit;
                 //arithmetic

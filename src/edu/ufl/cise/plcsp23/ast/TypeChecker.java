@@ -49,8 +49,26 @@ public class TypeChecker  implements ASTVisitor
     }
 
     @Override
-    public Object visitBinaryExpr(BinaryExpr binaryExpr, Object arg) throws PLCException {
-        return null;
+    public Object visitBinaryExpr(BinaryExpr binaryExpr, Object arg) throws PLCException
+    {
+        Declaration dec;
+       if(binaryExpr.right.firstToken.getKind() == IToken.Kind.IDENT)
+       {
+        dec = symbolTable.lookup(binaryExpr.right.firstToken.getTokenString());
+        if(dec==null)
+        {
+            throw new TypeCheckException("Uninitalized Variable");
+        }
+       }
+        if(binaryExpr.left.firstToken.getKind() == IToken.Kind.IDENT)
+        {
+            dec = symbolTable.lookup(binaryExpr.left.firstToken.getTokenString());
+            if(dec==null)
+            {
+                throw new TypeCheckException("Uninitalized Variable");
+            }
+        }
+       return null;
     }
 
     @Override
@@ -65,11 +83,20 @@ public class TypeChecker  implements ASTVisitor
             {
                 throw new TypeCheckException("Parameter already defined");
             }
+            if(block.decList.get(i).initializer instanceof BinaryExpr)
+            {
+              visitBinaryExpr((BinaryExpr) block.decList.get(i).initializer,null);
+            }
+            if(block.decList.get(i).initializer instanceof IdentExpr)
+            {
+                visitIdentExpr((IdentExpr) block.decList.get(i).initializer,null);
+            }
             decStatement = new Declaration( block.decList.get(i).firstToken,block.decList.get(i).nameDef,block.decList.get(i).initializer);
             symbolTable.insert(block.decList.get(i).nameDef.ident.getName(),decStatement);
         }
         int stmSize = block.statementList.size();
         Statement stm;
+
         for(int i=0; i<stmSize; i++)
         {
             if(block.statementList.get(i).firstToken.getKind() == IToken.Kind.COLON)
