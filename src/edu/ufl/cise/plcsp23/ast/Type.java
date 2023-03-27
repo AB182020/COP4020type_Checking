@@ -7,7 +7,9 @@ public enum Type {
 	PIXEL,
 	INT,
 	STRING,
-	VOID;
+	VOID,
+	COLON;
+
 
 	public static Type getType(IToken token) {
 		return switch(token.getKind()) {
@@ -16,6 +18,7 @@ public enum Type {
 		case RES_int -> INT;
 		case RES_string -> STRING;
 		case RES_void -> VOID;
+		case COLON -> COLON;
 		default -> throw new RuntimeException("error in Type.getType, unexpected token kind " + token.getKind());
 		};
 	}

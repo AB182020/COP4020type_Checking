@@ -10,6 +10,7 @@ public class Parser extends AST  implements IParser {
 
 
     AST astObj;
+    boolean InvalidStatementflag = false;
     boolean assignment = false;
     boolean CheckStringLit = false;
     String lexInput;
@@ -178,7 +179,7 @@ public class Parser extends AST  implements IParser {
    public NameDef nameDef() throws PLCException {
         Dimension dim = null;
         Type typeval = null;
-        if(nextToken.getKind() != IToken.Kind.RES_void && nextToken.getKind() != IToken.Kind.RES_image && nextToken.getKind() != IToken.Kind.RES_int && nextToken.getKind() != IToken.Kind.RES_pixel && nextToken.getKind() != IToken.Kind.RES_string && firstToken.getKind() != IToken.Kind.RES_while && firstToken.getKind() != IToken.Kind.RES_string )
+        if(nextToken.getKind() != IToken.Kind.RES_void && nextToken.getKind() != IToken.Kind.RES_image && nextToken.getKind() != IToken.Kind.RES_int && nextToken.getKind() != IToken.Kind.RES_pixel && nextToken.getKind() != IToken.Kind.RES_string && firstToken.getKind() != IToken.Kind.RES_while && firstToken.getKind() != IToken.Kind.RES_string &&nextToken.getKind() != IToken.Kind.COLON )
         {
           throw new SyntaxException("Error");
         }
@@ -256,9 +257,23 @@ public class Parser extends AST  implements IParser {
                 {
                     if(firstToken.getKind() != IToken.Kind.RES_while)
                     {
-                        decl = declar();
-                        declarationList.add(decl);
+                        if(InvalidStatementflag != true)
+                        {
+                            decl = declar();
+                            declarationList.add(decl);
+                        }
+                        else
+                        {
+                            firstToken = nextToken;
+                            nextToken = consume();
+                            stmList.add(statement());
+                            firstToken = nextToken;
+                            nextToken = consume();
+
+                        }
+
                     }
+
 
 
                 }
@@ -312,6 +327,17 @@ public class Parser extends AST  implements IParser {
 
         else
         {
+            if(InvalidStatementflag == true)
+            {
+                Expr invalidExpr = new IdentExpr(nextToken);
+                st = new AssignmentStatement(firstToken,lVal,invalidExpr);
+                return st;
+
+            }
+//            if(nextToken.getKind() != IToken.Kind.IDENT)
+//            {
+//              throw new TypeCheckException("Invalid Statement");
+//            }
                 Expr e1= null;
                 Expr e2=null;
                 // left side
@@ -331,6 +357,10 @@ public class Parser extends AST  implements IParser {
                 firstToken = nextToken;
                 nextToken = consume();
                 chan_Select = chan_Select();
+                if(chan_Select == null)
+                {
+                    chan = false;
+                }
 
             }
             if(pixSelect == true || chan == true)
@@ -429,12 +459,12 @@ public class Parser extends AST  implements IParser {
         return expandedPix;
     }
 
-    public ColorChannel chan_Select()
-    {
+    public ColorChannel chan_Select() throws TypeCheckException {
             if(nextToken.getKind() == IToken.Kind.RES_grn || nextToken.getKind() == IToken.Kind.RES_blu|| nextToken.getKind() == IToken.Kind.RES_red)
             {
                 chan_Select = ColorChannel.getColor(nextToken);
             }
+
         return chan_Select;
     }
 
@@ -472,11 +502,18 @@ public class Parser extends AST  implements IParser {
 
             if(nextToken.getKind() == IToken.Kind.COLON)
             {
-                chan = true;
-                firstToken = nextToken;
-                nextToken = consume();
-                chan_Select = chan_Select();
-
+                if(firstToken.getKind() == IToken.Kind.DOT)
+                {
+                    chan = false;
+                    InvalidStatementflag = true;
+                }
+                else
+                {
+                    chan = true;
+                    firstToken = nextToken;
+                    nextToken = consume();
+                    chan_Select = chan_Select();
+                }
             }
             if(pixSelect == true || chan == true )
             {
@@ -789,7 +826,11 @@ public class Parser extends AST  implements IParser {
                     eofKind = nextToken.getKind();
                 }
                 if(eofKind != IToken.Kind.EOF && eofKind != IToken.Kind.LCURLY && eofKind != IToken.Kind.LSQUARE)
+                {
+                    firstToken = nextToken;
                     nextToken = consume();
+                }
+
                 if(nextToken.getKind() == IToken.Kind.QUESTION || nextToken.getKind() == IToken.Kind.EOF  )
                 {
                     return idnt;

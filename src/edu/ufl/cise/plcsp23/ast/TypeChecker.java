@@ -54,7 +54,36 @@ public class TypeChecker  implements ASTVisitor
     }
 
     @Override
-    public Object visitBlock(Block block, Object arg) throws PLCException {
+    public Object visitBlock(Block block, Object arg) throws PLCException
+    {
+        int declSize = block.decList.size();
+        Declaration decStatement;
+        for(int i=0; i< declSize; i++)
+        {
+            Declaration  decLookup = symbolTable.lookup(block.decList.get(i).nameDef.ident.getName());
+            if(decLookup != null)
+            {
+                throw new TypeCheckException("Parameter already defined");
+            }
+            decStatement = new Declaration( block.decList.get(i).firstToken,block.decList.get(i).nameDef,block.decList.get(i).initializer);
+            symbolTable.insert(block.decList.get(i).nameDef.ident.getName(),decStatement);
+        }
+        int stmSize = block.statementList.size();
+        Statement stm;
+        for(int i=0; i<stmSize; i++)
+        {
+            if(block.statementList.get(i).firstToken.getKind() == IToken.Kind.COLON)
+            {
+                throw new TypeCheckException("Error Invalid Statement");
+            }
+//            Declaration  decLookup = symbolTable.lookup(block.decList.get(i).nameDef.ident.getName());
+//            if(decLookup != null)
+//            {
+//                throw new TypeCheckException("Parameter already defined");
+//            }
+//            decStatement = new Declaration( block.decList.get(i).firstToken,block.decList.get(i).nameDef,block.decList.get(i).initializer);
+//            symbolTable.insert(block.decList.get(i).nameDef.ident.getName(),decStatement);
+        }
         return null;
     }
 
@@ -166,11 +195,13 @@ public class TypeChecker  implements ASTVisitor
     public Object visitProgram(Program program, Object arg) throws PLCException {
         Declaration decParam = null;
         Declaration dec = symbolTable.lookup(program.ident.getName());
+        NameDef nameDf = new NameDef(program.firstToken ,program.type,null,program.getIdent());
         if(dec != null)
         {
             throw new SyntaxException("Program name already defined");
         }
-        symbolTable.insert(program.ident.getName(), dec);
+        dec = new Declaration(program.firstToken,nameDf,null);
+        symbolTable.insert(program.ident.getName(), null);
         int prmListLength =program.paramList.size();
         for(int i=0; i<prmListLength; i++)
         {
@@ -178,6 +209,10 @@ public class TypeChecker  implements ASTVisitor
             if(decLookup != null)
             {
                 throw new TypeCheckException("Parameter already defined");
+            }
+            if(program.paramList.get(i).type != Type.INT &&program.paramList.get(i).type != Type.STRING && program.paramList.get(i).type != Type.IMAGE&& program.paramList.get(i).type != Type.PIXEL )
+            {
+                throw new TypeCheckException("Incorrect type for parameter");
             }
             decParam = new Declaration( program.paramList.get(i).firstToken,program.paramList.get(i),null);
             symbolTable.insert(program.paramList.get(i).ident.getName(),decParam);
