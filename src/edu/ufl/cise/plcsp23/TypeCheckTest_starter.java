@@ -200,7 +200,7 @@ class TypeCheckTest_starter {
 				: i.
 				}
 				""";
-		typeCheck(input);
+		typeCheckError(input);
 	}
 	
 	@Test void t15() throws PLCException {
